@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jason-nano/I_want_to_fly-vel_plan_humanoid_new/Motor_Driver/src/MotorUnion/Motor/motor/motor.cpp
+motor.h
+/home/jason-nano/I_want_to_fly-vel_plan_humanoid_new/Motor_Driver/src/MotorUnion/Motor/motor/motor.h
+
+/home/jason-nano/I_want_to_fly-vel_plan_humanoid_new/Motor_Driver/src/MotorUnion/Motor/motor/motor.h
+cmath
+-
+
