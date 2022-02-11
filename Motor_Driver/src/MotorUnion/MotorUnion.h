@@ -1,7 +1,4 @@
 #pragma once
-#include "./Motor/MotorXm.h"
-#include "./Motor/MotorPro.h"
-#include "./Motor/MotorProPlus.h"
 #include "./Motor/MotorMx.h"
 #include <vector>
 #include <thread>

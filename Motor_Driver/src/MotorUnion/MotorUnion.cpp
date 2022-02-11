@@ -17,19 +17,8 @@ MotorUnion::MotorUnion(const vector<unsigned char> &IDArray,
 {
 	for (unsigned char i = 0; i < IDArray.size(); i++)
 	{
-		if (MotorModelArray.at(i) == "Pro100" || MotorModelArray.at(i) == "Pro200" || MotorModelArray.at(i) == "Pro20")
-			Motor_Union.push_back(new MotorPro(IDArray.at(i), MotorModelArray.at(i)));
-
-		else if (MotorModelArray.at(i) == "Pro20+")
-			Motor_Union.push_back(new MotorProPlus(IDArray.at(i), MotorModelArray.at(i)));
-
-		else if (MotorModelArray.at(i) == "Xm540" || MotorModelArray.at(i) == "Xm430")
-			Motor_Union.push_back(new MotorXm(IDArray.at(i), MotorModelArray.at(i)));
-
-		else if (MotorModelArray.at(i) == "Mx28" || MotorModelArray.at(i) == "Mx106")
+		if (MotorModelArray.at(i) == "Mx28" || MotorModelArray.at(i) == "Mx106")
 			Motor_Union.push_back(new MotorMx(IDArray.at(i), MotorModelArray.at(i)));
-		else
-			;
 	}
 
 	if (ConnectAllMotors(MotorUnion::allport))
