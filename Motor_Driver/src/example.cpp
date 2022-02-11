@@ -11,18 +11,13 @@ int main(int argc, char *argv[])
 
     while (1)
     {
-        cout << "-------------Type  SpeedMode( 1, 2, 3 ) : Direction( w(Go), s(Back), a(Left), d(Right) ) : Time( Interger )----------------"
+        cout << "-------------Press  SpeedMode( 1~3 ) && Command key( w(Go), s(Back), a(Left), d(Right) ,k(Keep moving) ) ----------------"
              << endl;
-        //motor_driver2.Sync_Drive(4, 8, 100, 2);
+
         int speed_mode = motor_driver1.scanKeyboard();
         int speed;
         int key;
         int time;
-
-        if (speed_mode == 10)
-        {
-            speed_mode = motor_driver1.scanKeyboard();
-        }
 
         switch (speed_mode)
         {
@@ -40,39 +35,30 @@ int main(int argc, char *argv[])
             break;
         default:
             speed = 0;
+            key = 0;
             cout << endl
                  << "No this mode." << endl;
             break;
-        }
-
-        if (speed == 0)
-        {
-            key = 0;
-        }
-        else if (key == 107)
-        {
-            key = motor_driver1.KeepMoving(speed, key);
         }
 
         switch (key)
         {
         case 0:
             break;
+        case 107:
+            motor_driver1.KeepMoving(speed, key);
+            break;
         case 100:
-            cin >> time;
-            motor_driver1.TurnRight(speed, key, time);
+            motor_driver1.TurnRight(speed, key);
             break;
         case 97:
-            cin >> time;
-            motor_driver1.TurnLeft(speed, key, time);
+            motor_driver1.TurnLeft(speed, key);
             break;
         case 119:
-            cin >> time;
-            motor_driver1.GoStraight(speed, key, time);
+            motor_driver1.GoStraight(speed, key);
             break;
         case 115:
-            cin >> time;
-            motor_driver1.GoBack(speed, key, time);
+            motor_driver1.GoBack(speed, key);
             break;
         default:
             cout << endl

@@ -102,13 +102,14 @@ public:
 
 public:
 	const int &Set_Velocity(int id, int mode, bool enable, int velocity);
-	const int Sync_Drive(int driver1_id, int driver2_id, int driver3_id, int driver4_id, int velocity, int time);
+	void Sync_Drive(int driver1_id, int driver2_id, int driver3_id, int driver4_id, int velocity, int time);
 	int Leg_id(int id);
-	const int Drive(int driver1_id, int velocity, int time);
+	void Drive(int driver1_id, int velocity, int time);
 	int scanKeyboard();
-	const int TurnRight(int Velocity, int Right_key, int time);
-	const int TurnLeft(int Velocity, int Left_key, int time);
-	const int GoStraight(int Velocity, int Straight_key, int time);
-	const int GoBack(int Velocity, int Back_key, int time);
-	int KeepMoving(int Velocity, int KeepMove_key);
+	const int TurnRight(int Velocity, int Right_key);
+	const int TurnLeft(int Velocity, int Left_key);
+	const int GoStraight(int Velocity, int Straight_key);
+	const int GoBack(int Velocity, int Back_key);
+	const int KeepMoving(int Velocity, int KeepMove_key);
+	//int
 };

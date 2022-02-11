@@ -406,8 +406,8 @@ const int &MotorUnion::Set_Velocity(int id, int mode, bool enable, int velocity)
 int MotorUnion::Leg_id(int id)
 {
 
-	const int arr[] = {0, 2, 4, 8}; //key in current motor id
-	const int n = sizeof(arr) / sizeof(arr[0]);
+	int arr[] = {0, 2, 4, 8}; //key in current motor id
+	int n = sizeof(arr) / sizeof(arr[0]);
 	int i = 0;
 	while (i < n)
 	{
@@ -415,13 +415,15 @@ int MotorUnion::Leg_id(int id)
 		{
 			id = i;
 			return id;
-			break;
 		}
-		i++;
+		else
+		{
+			i++;
+		}
 	}
 }
 
-const int MotorUnion::Sync_Drive(int driver1_id, int driver2_id, int driver3_id, int driver4_id, int velocity, int time)
+void MotorUnion::Sync_Drive(int driver1_id, int driver2_id, int driver3_id, int driver4_id, int velocity, int time)
 {
 
 	Set_Velocity(Leg_id(driver1_id), 1, 1, velocity);
@@ -440,7 +442,7 @@ const int MotorUnion::Sync_Drive(int driver1_id, int driver2_id, int driver3_id,
 	SetMotor_TorqueEnable(Leg_id(driver4_id), false);
 }
 
-const int MotorUnion::Drive(int driver1_id, int velocity, int time)
+void MotorUnion::Drive(int driver1_id, int velocity, int time)
 {
 
 	cout << "driver1 velocity is: " << Set_Velocity(Leg_id(driver1_id), 1, 1, velocity) << endl;
@@ -470,60 +472,111 @@ int MotorUnion::scanKeyboard()
 	return in;
 }
 
-const int MotorUnion::TurnRight(int Velocity, int Right_key, int time)
+const int MotorUnion::TurnRight(int Velocity, int Right_key)
 {
-
-	cout << " Turn right : " << time << " seconds." << endl;
-	Set_Velocity(Leg_id(0), 1, 1, Velocity);
-	Set_Velocity(Leg_id(2), 1, 1, Velocity);
-	Set_Velocity(Leg_id(4), 1, 1, Velocity);
-	Set_Velocity(Leg_id(8), 1, 1, Velocity);
-	sleep(time);
-	Set_Velocity(Leg_id(0), 1, 1, 0);
-	Set_Velocity(Leg_id(2), 1, 1, 0);
-	Set_Velocity(Leg_id(4), 1, 1, 0);
-	Set_Velocity(Leg_id(8), 1, 1, 0);
-	sleep(1);
-	SetMotor_TorqueEnable(Leg_id(0), false);
-	SetMotor_TorqueEnable(Leg_id(2), false);
-	SetMotor_TorqueEnable(Leg_id(4), false);
-	SetMotor_TorqueEnable(Leg_id(8), false);
+	int Stop = 0;
+	cout << " Turn right. " << endl;
+	while (Right_key == 100)
+	{
+		Set_Velocity(Leg_id(0), 1, 1, Velocity);
+		Set_Velocity(Leg_id(2), 1, 1, Velocity);
+		Set_Velocity(Leg_id(4), 1, 1, Velocity);
+		Set_Velocity(Leg_id(8), 1, 1, Velocity);
+		cout << " Press 'Space' to stop. " << endl;
+		Right_key = scanKeyboard();
+		cout << endl;
+		Set_Velocity(Leg_id(0), 1, 1, 0);
+		Set_Velocity(Leg_id(2), 1, 1, 0);
+		Set_Velocity(Leg_id(4), 1, 1, 0);
+		Set_Velocity(Leg_id(8), 1, 1, 0);
+		sleep(1);
+		SetMotor_TorqueEnable(Leg_id(0), false);
+		SetMotor_TorqueEnable(Leg_id(2), false);
+		SetMotor_TorqueEnable(Leg_id(4), false);
+		SetMotor_TorqueEnable(Leg_id(8), false);
+	}
+	return Stop;
 }
 
-const int MotorUnion::TurnLeft(int Velocity, int Right_key, int time)
+const int MotorUnion::TurnLeft(int Velocity, int Left_key)
 {
-
-	cout << " Turn left : " << time << " seconds." << endl;
-	Set_Velocity(Leg_id(0), 1, 1, -Velocity);
-	Set_Velocity(Leg_id(2), 1, 1, -Velocity);
-	Set_Velocity(Leg_id(4), 1, 1, -Velocity);
-	Set_Velocity(Leg_id(8), 1, 1, -Velocity);
-	sleep(time);
-	Set_Velocity(Leg_id(0), 1, 1, 0);
-	Set_Velocity(Leg_id(2), 1, 1, 0);
-	Set_Velocity(Leg_id(4), 1, 1, 0);
-	Set_Velocity(Leg_id(8), 1, 1, 0);
-	sleep(1);
-	SetMotor_TorqueEnable(Leg_id(0), false);
-	SetMotor_TorqueEnable(Leg_id(2), false);
-	SetMotor_TorqueEnable(Leg_id(4), false);
-	SetMotor_TorqueEnable(Leg_id(8), false);
+	int Stop = 0;
+	cout << " Turn left. " << endl;
+	while (Left_key == 97)
+	{
+		Set_Velocity(Leg_id(0), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(2), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(4), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(8), 1, 1, -Velocity);
+		cout << " Press 'Space' to stop. " << endl;
+		Left_key = scanKeyboard();
+		cout << endl;
+		Set_Velocity(Leg_id(0), 1, 1, 0);
+		Set_Velocity(Leg_id(2), 1, 1, 0);
+		Set_Velocity(Leg_id(4), 1, 1, 0);
+		Set_Velocity(Leg_id(8), 1, 1, 0);
+		sleep(1);
+		SetMotor_TorqueEnable(Leg_id(0), false);
+		SetMotor_TorqueEnable(Leg_id(2), false);
+		SetMotor_TorqueEnable(Leg_id(4), false);
+		SetMotor_TorqueEnable(Leg_id(8), false);
+	}
+	return Stop;
 }
 
-const int MotorUnion::GoStraight(int Velocity, int Straight_key, int time)
+const int MotorUnion::GoStraight(int Velocity, int Straight_key)
 {
-	cout << " Go straight : " << time << " seconds." << endl;
-	Sync_Drive(0, 2, 4, 8, Velocity, time);
-	// Sync_Drive(0, 2, Velocity, time);
+	int Stop = 0;
+	cout << " Go straight. " << endl;
+	while (Straight_key == 119)
+	{
+		Set_Velocity(Leg_id(0), 1, 1, Velocity);
+		Set_Velocity(Leg_id(2), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(4), 1, 1, Velocity);
+		Set_Velocity(Leg_id(8), 1, 1, -Velocity);
+		cout << " Press 'Space' to stop. " << endl;
+		Straight_key = scanKeyboard();
+		cout << endl;
+		Set_Velocity(Leg_id(0), 1, 1, 0);
+		Set_Velocity(Leg_id(2), 1, 1, 0);
+		Set_Velocity(Leg_id(4), 1, 1, 0);
+		Set_Velocity(Leg_id(8), 1, 1, 0);
+		sleep(1);
+		SetMotor_TorqueEnable(Leg_id(0), false);
+		SetMotor_TorqueEnable(Leg_id(2), false);
+		SetMotor_TorqueEnable(Leg_id(4), false);
+		SetMotor_TorqueEnable(Leg_id(8), false);
+	}
+	return Stop;
 }
 
-const int MotorUnion::GoBack(int Velocity, int Back_key, int time)
+const int MotorUnion::GoBack(int Velocity, int Back_key)
 {
-	cout << " Go back : " << time << " seconds." << endl;
-	Sync_Drive(0, 2, 4, 8, -Velocity, time);
+	int Stop = 0;
+	cout << " Go back. " << endl;
+	while (Back_key == 115)
+	{
+		Set_Velocity(Leg_id(0), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(2), 1, 1, Velocity);
+		Set_Velocity(Leg_id(4), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(8), 1, 1, Velocity);
+		cout << " Press 'Space' to stop. " << endl;
+		Back_key = scanKeyboard();
+		cout << endl;
+		Set_Velocity(Leg_id(0), 1, 1, 0);
+		Set_Velocity(Leg_id(2), 1, 1, 0);
+		Set_Velocity(Leg_id(4), 1, 1, 0);
+		Set_Velocity(Leg_id(8), 1, 1, 0);
+		sleep(1);
+		SetMotor_TorqueEnable(Leg_id(0), false);
+		SetMotor_TorqueEnable(Leg_id(2), false);
+		SetMotor_TorqueEnable(Leg_id(4), false);
+		SetMotor_TorqueEnable(Leg_id(8), false);
+	}
+	return Stop;
 }
 
-int MotorUnion::KeepMoving(int Velocity, int KeepMove_key)
+const int MotorUnion::KeepMoving(int Velocity, int KeepMove_key)
 {
 	int Stop = 0;
 	cout << " Keep moving. " << endl;
@@ -535,7 +588,7 @@ int MotorUnion::KeepMoving(int Velocity, int KeepMove_key)
 		Set_Velocity(Leg_id(8), 1, 1, -Velocity);
 		cout << " Press any key except 'k' to stop. " << endl;
 		KeepMove_key = scanKeyboard();
-
+		cout << endl;
 		Set_Velocity(Leg_id(0), 1, 1, 0);
 		Set_Velocity(Leg_id(2), 1, 1, 0);
 		Set_Velocity(Leg_id(4), 1, 1, 0);
