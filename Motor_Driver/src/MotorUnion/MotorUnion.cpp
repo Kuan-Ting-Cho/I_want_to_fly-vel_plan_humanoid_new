@@ -1,4 +1,7 @@
 #include "MotorUnion.h"
+#include <unistd.h>
+#include <termio.h>
+using namespace std;
 vector<unsigned char> MotorUnion::allport = {0, 1, 2, 3, 4, 5, 6};
 
 /**
@@ -133,8 +136,10 @@ const bool MotorUnion::CheckAllMotorsArrival() const
  * 
  * @param i - ID of the motor
  */
-void MotorUnion::WaitMotorArrival(int i) const {
-	while (!Motor_Union.at(i)->GetMotor_Arrival()) {
+void MotorUnion::WaitMotorArrival(int i) const
+{
+	while (!Motor_Union.at(i)->GetMotor_Arrival())
+	{
 		if (GetAllMotorsTorqueEnable() == false)
 			break;
 		this_thread::sleep_for(chrono::milliseconds(waiting_frequency));
@@ -290,8 +295,8 @@ const float &MotorUnion::GetMotor_PresentTorque(const unsigned char &idx) const
 /*
 	Set Motor Data
 */
-void MotorUnion::SetMotor_Operating_Mode(const unsigned char &idx, char mode) const	//can't set mode online
-{	
+void MotorUnion::SetMotor_Operating_Mode(const unsigned char &idx, char mode) const //can't set mode online
+{
 	// Motor_Union.at(idx)->SetMotor_TorqueEnable(false);
 	// this_thread::sleep_for(chrono::milliseconds(50));
 	Motor_Union.at(idx)->SetMotor_Operating_Mode(mode);
@@ -391,4 +396,166 @@ void MotorUnion::ReadData() const
 	// clear parameters
 	for (int i = 0; i < groupBulkRead.size(); i++)
 		groupBulkRead.at(i)->clearParam();
+}
+
+const int &MotorUnion::Set_Velocity(int id, int mode, bool enable, int velocity)
+{
+	SetAllMotorsOperatingMode(1); //need to set mode on wizard 2.0 !!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	usleep(1000);
+
+	SetMotor_TorqueEnable(id, enable);
+	usleep(1000);
+
+	SetMotor_Velocity(id, velocity);
+
+	usleep(1000);
+
+	return GetMotor_Velocity(id);
+}
+
+int MotorUnion::Leg_id(int id)
+{
+
+	const int arr[] = {0, 2, 4, 8}; //key in current motor id
+	const int n = sizeof(arr) / sizeof(arr[0]);
+	int i = 0;
+	while (i < n)
+	{
+		if (arr[i] == id)
+		{
+			id = i;
+			return id;
+			break;
+		}
+		i++;
+	}
+}
+
+const int MotorUnion::Sync_Drive(int driver1_id, int driver2_id, int driver3_id, int driver4_id, int velocity, int time)
+{
+
+	Set_Velocity(Leg_id(driver1_id), 1, 1, velocity);
+	Set_Velocity(Leg_id(driver2_id), 1, 1, -velocity);
+	Set_Velocity(Leg_id(driver3_id), 1, 1, velocity);
+	Set_Velocity(Leg_id(driver4_id), 1, 1, -velocity);
+	sleep(time);
+	Set_Velocity(Leg_id(driver1_id), 1, 1, 0);
+	Set_Velocity(Leg_id(driver2_id), 1, 1, 0);
+	Set_Velocity(Leg_id(driver3_id), 1, 1, 0);
+	Set_Velocity(Leg_id(driver4_id), 1, 1, 0);
+	sleep(1);
+	SetMotor_TorqueEnable(Leg_id(driver1_id), false);
+	SetMotor_TorqueEnable(Leg_id(driver2_id), false);
+	SetMotor_TorqueEnable(Leg_id(driver3_id), false);
+	SetMotor_TorqueEnable(Leg_id(driver4_id), false);
+}
+
+const int MotorUnion::Drive(int driver1_id, int velocity, int time)
+{
+
+	cout << "driver1 velocity is: " << Set_Velocity(Leg_id(driver1_id), 1, 1, velocity) << endl;
+	sleep(time);
+	cout << "driver1 velocity is: " << Set_Velocity(Leg_id(driver1_id), 1, 1, 0) << endl;
+	sleep(1);
+	SetMotor_TorqueEnable(Leg_id(driver1_id), false);
+}
+
+int MotorUnion::scanKeyboard()
+{
+	//  https://www.cxyzjd.com/article/Q_upup/104848283
+	int in;
+	struct termios new_settings;
+	struct termios stored_settings;
+	tcgetattr(STDIN_FILENO, &stored_settings);
+	new_settings = stored_settings;
+	new_settings.c_lflag &= (~ICANON);
+	new_settings.c_cc[VTIME] = 0;
+	tcgetattr(STDIN_FILENO, &stored_settings);
+	new_settings.c_cc[VMIN] = 1;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
+
+	in = getchar();
+
+	tcsetattr(STDIN_FILENO, TCSANOW, &stored_settings);
+	return in;
+}
+
+const int MotorUnion::TurnRight(int Velocity, int Right_key, int time)
+{
+
+	cout << " Turn right : " << time << " seconds." << endl;
+	Set_Velocity(Leg_id(0), 1, 1, Velocity);
+	Set_Velocity(Leg_id(2), 1, 1, Velocity);
+	Set_Velocity(Leg_id(4), 1, 1, Velocity);
+	Set_Velocity(Leg_id(8), 1, 1, Velocity);
+	sleep(time);
+	Set_Velocity(Leg_id(0), 1, 1, 0);
+	Set_Velocity(Leg_id(2), 1, 1, 0);
+	Set_Velocity(Leg_id(4), 1, 1, 0);
+	Set_Velocity(Leg_id(8), 1, 1, 0);
+	sleep(1);
+	SetMotor_TorqueEnable(Leg_id(0), false);
+	SetMotor_TorqueEnable(Leg_id(2), false);
+	SetMotor_TorqueEnable(Leg_id(4), false);
+	SetMotor_TorqueEnable(Leg_id(8), false);
+}
+
+const int MotorUnion::TurnLeft(int Velocity, int Right_key, int time)
+{
+
+	cout << " Turn left : " << time << " seconds." << endl;
+	Set_Velocity(Leg_id(0), 1, 1, -Velocity);
+	Set_Velocity(Leg_id(2), 1, 1, -Velocity);
+	Set_Velocity(Leg_id(4), 1, 1, -Velocity);
+	Set_Velocity(Leg_id(8), 1, 1, -Velocity);
+	sleep(time);
+	Set_Velocity(Leg_id(0), 1, 1, 0);
+	Set_Velocity(Leg_id(2), 1, 1, 0);
+	Set_Velocity(Leg_id(4), 1, 1, 0);
+	Set_Velocity(Leg_id(8), 1, 1, 0);
+	sleep(1);
+	SetMotor_TorqueEnable(Leg_id(0), false);
+	SetMotor_TorqueEnable(Leg_id(2), false);
+	SetMotor_TorqueEnable(Leg_id(4), false);
+	SetMotor_TorqueEnable(Leg_id(8), false);
+}
+
+const int MotorUnion::GoStraight(int Velocity, int Straight_key, int time)
+{
+	cout << " Go straight : " << time << " seconds." << endl;
+	Sync_Drive(0, 2, 4, 8, Velocity, time);
+	// Sync_Drive(0, 2, Velocity, time);
+}
+
+const int MotorUnion::GoBack(int Velocity, int Back_key, int time)
+{
+	cout << " Go back : " << time << " seconds." << endl;
+	Sync_Drive(0, 2, 4, 8, -Velocity, time);
+}
+
+int MotorUnion::KeepMoving(int Velocity, int KeepMove_key)
+{
+	int Stop = 0;
+	cout << " Keep moving. " << endl;
+	while (KeepMove_key == 107)
+	{
+		Set_Velocity(Leg_id(0), 1, 1, Velocity);
+		Set_Velocity(Leg_id(2), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(4), 1, 1, Velocity);
+		Set_Velocity(Leg_id(8), 1, 1, -Velocity);
+		cout << " Press any key except 'k' to stop. " << endl;
+		KeepMove_key = scanKeyboard();
+
+		Set_Velocity(Leg_id(0), 1, 1, 0);
+		Set_Velocity(Leg_id(2), 1, 1, 0);
+		Set_Velocity(Leg_id(4), 1, 1, 0);
+		Set_Velocity(Leg_id(8), 1, 1, 0);
+		sleep(1);
+		SetMotor_TorqueEnable(Leg_id(0), false);
+		SetMotor_TorqueEnable(Leg_id(2), false);
+		SetMotor_TorqueEnable(Leg_id(4), false);
+		SetMotor_TorqueEnable(Leg_id(8), false);
+	}
+	return Stop;
 }

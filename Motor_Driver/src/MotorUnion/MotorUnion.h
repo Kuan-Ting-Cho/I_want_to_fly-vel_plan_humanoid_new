@@ -19,6 +19,7 @@ public:
 			   const vector<string> &MotorModelArray);
 	virtual ~MotorUnion();
 	const bool &GetMotor_TorqueEnable(const unsigned char &idx) const;
+
 private:
 	template <class T>
 	void deleteInVector(vector<T *>);
@@ -74,9 +75,8 @@ protected:
 	const short &GetMotor_CenterScale(const unsigned char &idx) const;
 	const float &GetMotor_Angle(const unsigned char &idx) const;
 	const int &GetMotor_Accel(const unsigned char &idx) const;
-	
+
 	const float &GetMotor_PresentVelocity(const unsigned char &idx) const;
-	
 
 	////////////////////////////////////////////////////////////////////////////////
 	///   Background   /////////////////////////////////////////////////////////////
@@ -102,4 +102,16 @@ private:
 
 public:
 	static vector<unsigned char> allport;
+
+public:
+	const int &Set_Velocity(int id, int mode, bool enable, int velocity);
+	const int Sync_Drive(int driver1_id, int driver2_id, int driver3_id, int driver4_id, int velocity, int time);
+	int Leg_id(int id);
+	const int Drive(int driver1_id, int velocity, int time);
+	int scanKeyboard();
+	const int TurnRight(int Velocity, int Right_key, int time);
+	const int TurnLeft(int Velocity, int Left_key, int time);
+	const int GoStraight(int Velocity, int Straight_key, int time);
+	const int GoBack(int Velocity, int Back_key, int time);
+	int KeepMoving(int Velocity, int KeepMove_key);
 };
