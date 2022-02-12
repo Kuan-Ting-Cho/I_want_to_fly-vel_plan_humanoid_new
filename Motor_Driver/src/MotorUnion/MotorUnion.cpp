@@ -406,7 +406,7 @@ const int &MotorUnion::Set_Velocity(int id, int mode, bool enable, int velocity)
 int MotorUnion::Leg_id(int id)
 {
 
-	int arr[] = {0, 2, 4, 8}; //key in current motor id
+	int arr[] = {0, 2, 4, 6}; //key in current motor id
 	int n = sizeof(arr) / sizeof(arr[0]);
 	int i = 0;
 	while (i < n)
@@ -481,19 +481,19 @@ const int MotorUnion::TurnRight(int Velocity, int Right_key)
 		Set_Velocity(Leg_id(0), 1, 1, Velocity);
 		Set_Velocity(Leg_id(2), 1, 1, Velocity);
 		Set_Velocity(Leg_id(4), 1, 1, Velocity);
-		Set_Velocity(Leg_id(8), 1, 1, Velocity);
+		Set_Velocity(Leg_id(6), 1, 1, Velocity);
 		cout << " Press 'Space' to stop. " << endl;
 		Right_key = scanKeyboard();
 		cout << endl;
 		Set_Velocity(Leg_id(0), 1, 1, 0);
 		Set_Velocity(Leg_id(2), 1, 1, 0);
 		Set_Velocity(Leg_id(4), 1, 1, 0);
-		Set_Velocity(Leg_id(8), 1, 1, 0);
+		Set_Velocity(Leg_id(6), 1, 1, 0);
 		sleep(1);
 		SetMotor_TorqueEnable(Leg_id(0), false);
 		SetMotor_TorqueEnable(Leg_id(2), false);
 		SetMotor_TorqueEnable(Leg_id(4), false);
-		SetMotor_TorqueEnable(Leg_id(8), false);
+		SetMotor_TorqueEnable(Leg_id(6), false);
 	}
 	return Stop;
 }
@@ -507,19 +507,19 @@ const int MotorUnion::TurnLeft(int Velocity, int Left_key)
 		Set_Velocity(Leg_id(0), 1, 1, -Velocity);
 		Set_Velocity(Leg_id(2), 1, 1, -Velocity);
 		Set_Velocity(Leg_id(4), 1, 1, -Velocity);
-		Set_Velocity(Leg_id(8), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(6), 1, 1, -Velocity);
 		cout << " Press 'Space' to stop. " << endl;
 		Left_key = scanKeyboard();
 		cout << endl;
 		Set_Velocity(Leg_id(0), 1, 1, 0);
 		Set_Velocity(Leg_id(2), 1, 1, 0);
 		Set_Velocity(Leg_id(4), 1, 1, 0);
-		Set_Velocity(Leg_id(8), 1, 1, 0);
+		Set_Velocity(Leg_id(6), 1, 1, 0);
 		sleep(1);
 		SetMotor_TorqueEnable(Leg_id(0), false);
 		SetMotor_TorqueEnable(Leg_id(2), false);
 		SetMotor_TorqueEnable(Leg_id(4), false);
-		SetMotor_TorqueEnable(Leg_id(8), false);
+		SetMotor_TorqueEnable(Leg_id(6), false);
 	}
 	return Stop;
 }
@@ -533,19 +533,19 @@ const int MotorUnion::GoStraight(int Velocity, int Straight_key)
 		Set_Velocity(Leg_id(0), 1, 1, Velocity);
 		Set_Velocity(Leg_id(2), 1, 1, -Velocity);
 		Set_Velocity(Leg_id(4), 1, 1, Velocity);
-		Set_Velocity(Leg_id(8), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(6), 1, 1, -Velocity);
 		cout << " Press 'Space' to stop. " << endl;
 		Straight_key = scanKeyboard();
 		cout << endl;
 		Set_Velocity(Leg_id(0), 1, 1, 0);
 		Set_Velocity(Leg_id(2), 1, 1, 0);
 		Set_Velocity(Leg_id(4), 1, 1, 0);
-		Set_Velocity(Leg_id(8), 1, 1, 0);
+		Set_Velocity(Leg_id(6), 1, 1, 0);
 		sleep(1);
 		SetMotor_TorqueEnable(Leg_id(0), false);
 		SetMotor_TorqueEnable(Leg_id(2), false);
 		SetMotor_TorqueEnable(Leg_id(4), false);
-		SetMotor_TorqueEnable(Leg_id(8), false);
+		SetMotor_TorqueEnable(Leg_id(6), false);
 	}
 	return Stop;
 }
@@ -559,19 +559,19 @@ const int MotorUnion::GoBack(int Velocity, int Back_key)
 		Set_Velocity(Leg_id(0), 1, 1, -Velocity);
 		Set_Velocity(Leg_id(2), 1, 1, Velocity);
 		Set_Velocity(Leg_id(4), 1, 1, -Velocity);
-		Set_Velocity(Leg_id(8), 1, 1, Velocity);
+		Set_Velocity(Leg_id(6), 1, 1, Velocity);
 		cout << " Press 'Space' to stop. " << endl;
 		Back_key = scanKeyboard();
 		cout << endl;
 		Set_Velocity(Leg_id(0), 1, 1, 0);
 		Set_Velocity(Leg_id(2), 1, 1, 0);
 		Set_Velocity(Leg_id(4), 1, 1, 0);
-		Set_Velocity(Leg_id(8), 1, 1, 0);
+		Set_Velocity(Leg_id(6), 1, 1, 0);
 		sleep(1);
 		SetMotor_TorqueEnable(Leg_id(0), false);
 		SetMotor_TorqueEnable(Leg_id(2), false);
 		SetMotor_TorqueEnable(Leg_id(4), false);
-		SetMotor_TorqueEnable(Leg_id(8), false);
+		SetMotor_TorqueEnable(Leg_id(6), false);
 	}
 	return Stop;
 }
@@ -585,19 +585,19 @@ const int MotorUnion::KeepMoving(int Velocity, int KeepMove_key)
 		Set_Velocity(Leg_id(0), 1, 1, Velocity);
 		Set_Velocity(Leg_id(2), 1, 1, -Velocity);
 		Set_Velocity(Leg_id(4), 1, 1, Velocity);
-		Set_Velocity(Leg_id(8), 1, 1, -Velocity);
+		Set_Velocity(Leg_id(6), 1, 1, -Velocity);
 		cout << " Press any key except 'k' to stop. " << endl;
 		KeepMove_key = scanKeyboard();
 		cout << endl;
 		Set_Velocity(Leg_id(0), 1, 1, 0);
 		Set_Velocity(Leg_id(2), 1, 1, 0);
 		Set_Velocity(Leg_id(4), 1, 1, 0);
-		Set_Velocity(Leg_id(8), 1, 1, 0);
+		Set_Velocity(Leg_id(6), 1, 1, 0);
 		sleep(1);
 		SetMotor_TorqueEnable(Leg_id(0), false);
 		SetMotor_TorqueEnable(Leg_id(2), false);
 		SetMotor_TorqueEnable(Leg_id(4), false);
-		SetMotor_TorqueEnable(Leg_id(8), false);
+		SetMotor_TorqueEnable(Leg_id(6), false);
 	}
 	return Stop;
 }

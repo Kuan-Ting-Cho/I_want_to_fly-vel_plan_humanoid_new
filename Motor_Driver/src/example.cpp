@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    MotorUnion motor_driver1({0, 2, 4, 8}, {"Mx28", "Mx28", "Mx28", "Mx106"}); //Mx106 Vmax 210  //Mx28  Vmax 230
+    MotorUnion motor_driver1({0, 2, 4, 6}, {"Mx28", "Mx28", "Mx28", "Mx28"}); //Mx106 Vmax 210  //Mx28  Vmax 230
 
     while (1)
     {
