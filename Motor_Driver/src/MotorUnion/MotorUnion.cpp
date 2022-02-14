@@ -586,7 +586,7 @@ const int MotorUnion::KeepMoving(int Velocity, int KeepMove_key)
 		Set_Velocity(Leg_id(2), 1, 1, -Velocity);
 		Set_Velocity(Leg_id(4), 1, 1, Velocity);
 		Set_Velocity(Leg_id(6), 1, 1, -Velocity);
-		cout << " Press any key except 'k' to stop. " << endl;
+		cout << " Press 'Space' to stop. " << endl;
 		KeepMove_key = scanKeyboard();
 		cout << endl;
 		Set_Velocity(Leg_id(0), 1, 1, 0);
