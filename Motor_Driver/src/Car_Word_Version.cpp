@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
     while (Previous_Line == Current_Line)
     {
-        test.open("test.txt");
+        test.open("/home/potter/I_want_to_fly-vel_plan_humanoid_new/Motor_Driver/src/test.txt");
         while (Previous_Line == Current_Line)
         {
             while (test.peek() != EOF)

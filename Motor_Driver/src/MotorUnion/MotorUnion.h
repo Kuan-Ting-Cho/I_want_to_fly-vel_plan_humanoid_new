@@ -3,7 +3,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
-
+#include <string>
 class MotorUnion
 {
 public:
@@ -102,14 +102,12 @@ public:
 
 public:
 	const int &Set_Velocity(int id, int mode, bool enable, int velocity);
-	void Sync_Drive(int driver1_id, int driver2_id, int driver3_id, int driver4_id, int velocity, int time);
 	int Leg_id(int id);
-	void Drive(int driver1_id, int velocity, int time);
-	int scanKeyboard();
-	const int TurnRight(int Velocity, int Right_key);
-	const int TurnLeft(int Velocity, int Left_key);
-	const int GoStraight(int Velocity, int Straight_key);
-	const int GoBack(int Velocity, int Back_key);
-	const int KeepMoving(int Velocity, int KeepMove_key);
-	//int
+	int *ConvertToASCII(string s);
+	void Stop();
+	void Change_angle(int Angle, int Velocity);
+	void TurnRight(int Velocity);
+	void TurnLeft(int Velocity);
+	void GoStraight(int Velocity);
+	void GoBack(int Velocity);
 };
